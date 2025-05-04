@@ -18,6 +18,8 @@ create database "qualiextra" owner "votre nom d'utilisateur";
 Copier le fichier .env.example et le renommer '.env'.
 Remplacer les variables par les valeurs de votre configuration.
 
+'PORT': remplacer par le port de votre serveur.
+
 'DB_URL': 
 -remplacer le champs username par votre nom d'utilisateur.
 -remplacer le champs password par votre mot de passe.
