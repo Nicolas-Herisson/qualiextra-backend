@@ -14,19 +14,24 @@ create database "qualiextra" owner "votre nom d'utilisateur";
 ```
 
 ## Configuration du .env:
+
 Copier le fichier .env.example et le renommer '.env'.
 Remplacer les variables par les valeurs de votre configuration.
+
 'DB_URL': 
 -remplacer le champs username par votre nom d'utilisateur.
 -remplacer le champs password par votre mot de passe.
--remplacer le champs database par votre nom de base de données.
+-remplacer le champs database par votre nom de base de données (qualiextra).
+
 'JWT_SECRET': remplacer par votre clé secrète (J'utilise un UUID pour plus de sécurité).
+
 'EMAIL_HOST': remplacer par votre serveur SMTP.
 'EMAIL_PORT': remplacer par le port de votre serveur SMTP.
 'EMAIL_USER': remplacer par votre adresse email.
 'EMAIL_PASS': remplacer par votre mot de passe.
 'EMAIL_FROM_NAME': remplacer par le nom du service qui envoie les emails.
 'EMAIL_FROM_ADDRESS': remplacer par l'adresse email du service qui envoie les emails.
+
 'VERIFICATION_URL': remplacer par l'URL de votre application, dans ce projet 'http://localhost:3000/api/auth/verify'.
 Pour une configuration de test simple et rapide, utiliser [ethereal](https://ethereal.email/). et cliquer sur 'Create Ethereal account'.
 **Si vous utilisez ethereal, les mails seront envoyés à l'adresse email d'ethereal, peu importe le mail que vous avez mis en tant que destinataire.**
