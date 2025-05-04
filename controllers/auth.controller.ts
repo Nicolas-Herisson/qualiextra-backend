@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 import argon2 from 'argon2';
 import dotenv from 'dotenv';
 import type { Request, Response } from 'express';
@@ -105,7 +105,6 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         'Votre compte a été créé avec succès, vérifiez votre email pour activer votre compte',
       verificationToken,
     });
-
   } catch (error) {
     if (error instanceof z.ZodError) {
       res.status(400).json({ message: error.errors[0].message });
@@ -145,7 +144,7 @@ export const verifyEmail = async (
 
     await user.save();
 
-    res.json({ message: 'Email verified successfully'});
+    res.json({ message: 'Email verified successfully' });
   } catch (error) {
     console.error('Email verification error: ', error);
     res.status(500).json({ message: 'Internal server error' });

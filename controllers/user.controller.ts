@@ -1,6 +1,5 @@
 import type { Request, Response } from 'express';
 import * as z from 'zod';
-import type { IUser } from '../@Types/types.ts';
 import { User } from '../models/associations.ts';
 import emailSchema from '../utils/emailValidator.ts';
 import passwordSchema from '../utils/passwordValidator.ts';
@@ -15,19 +14,19 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const user = (await User.findByPk(requester.id, {
+    const user = await User.findByPk(requester.id, {
       include: 'role',
       attributes: {
         exclude: ['password'],
       },
-    })) as unknown as IUser;
+    });
 
     if (!user) {
       res.status(404).json({ message: 'User not found' });
       return;
     }
 
-    res.json({ message: `Hello ${user.firstname}` });
+    res.json({ message: `Hello ${user.get('firstname')}` });
   } catch (error) {
     if (error instanceof Error) {
       console.error('User error: ', error.message);
@@ -58,7 +57,7 @@ export const updateUser = async (
       return;
     }
 
-    const user = (await User.findByPk(id)) as unknown as IUser;
+    const user = await User.findByPk(id);
 
     if (!user) {
       res.status(404).json({ message: 'User not found' });
@@ -78,12 +77,17 @@ export const updateUser = async (
       return;
     }
 
-    user.firstname = firstname;
-    user.lastname = lastname;
-    user.email = email;
-    user.password = password;
-
-    await user.save();
+    await User.update(
+      {
+        firstname,
+        lastname,
+        email,
+        password,
+      },
+      {
+        where: { id },
+      },
+    );
 
     res.json({ message: 'User updated successfully' });
   } catch (error) {
@@ -118,12 +122,12 @@ export const getUserById = async (
       return;
     }
 
-    const user = (await User.findByPk(id, {
+    const user = await User.findByPk(id, {
       include: 'role',
       attributes: {
         exclude: ['password'],
       },
-    })) as unknown as IUser;
+    });
 
     if (!user) {
       res.status(404).json({ message: 'User not found' });
@@ -167,7 +171,6 @@ export const updateUserById = async (
   res: Response,
 ): Promise<void> => {
   try {
-    console.log("in update user by id");
     const { id } = req.params;
     const { firstname, lastname, email, password } = req.body;
 
@@ -175,23 +178,25 @@ export const updateUserById = async (
       res.status(400).json({ message: 'Missing user ID' });
       return;
     }
-console.log("after id");
-    const user = (await User.findByPk(id)) as unknown as IUser;
-console.log("after user");
+
+    const user = await User.findByPk(id);
     if (!user) {
       res.status(404).json({ message: 'User not found' });
       return;
     }
-console.log("after user not found");
-    // Mise à jour des champs de l'utilisateur
-    user.firstname = firstname;
-    user.lastname = lastname;
-    user.email = email;
-    user.password = password;
 
-    // Sauvegarde des modifications
-    await user.save();
-console.log("after save");
+    await User.update(
+      {
+        firstname,
+        lastname,
+        email,
+        password,
+      },
+      {
+        where: { id },
+      },
+    );
+
     res.json({ message: 'User updated successfully' });
   } catch (error) {
     if (error instanceof Error) {
