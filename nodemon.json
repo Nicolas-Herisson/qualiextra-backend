@@ -1,0 +1,6 @@
+{
+    "watch": ["index.ts", "./**/*.ts"],
+    "ext": "ts,json",
+    "exec": "node --loader ts-node/esm index.ts"
+  }
+  
